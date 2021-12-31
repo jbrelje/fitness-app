@@ -1,0 +1,19 @@
+<h2>Workout Log</h2>
+
+<!-- <ul>
+  <li *ngFor="let workout of rawData">{{ workout }}</li>
+</ul> -->
+
+<table>
+  <tbody>
+    <tr *ngFor="let workout of workouts">
+      <td class="title">{{ workout.title }}</td>
+      <td>{{ workout.type }}</td>
+      <td>{{ workout.date }}</td>
+      <td>{{ workout.distance | number }}</td>
+      <td>{{ workout.time * 3600 * 1000 | date: 'H:mm:ss':'UTC' }}</td>
+      <td>{{ workout.rpe }}</td>
+      <td>{{ workout.feeling }}</td>
+    </tr>
+  </tbody>
+</table>
