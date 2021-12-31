@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
 
 import { DataService } from './../../service/data.service';
 import { Workout } from './../../models/workout.model'
@@ -10,6 +11,9 @@ import { Workout } from './../../models/workout.model'
 })
 export class WorkoutLogComponent implements OnInit {
 
+  displayedColumns: string[] = ['title', 'type', 'date', 'distance', 'time', 'rpe', 'feeling'];
+  dataSource = new MatTableDataSource<Workout>();
+
   rawData: any[] = [];
   workouts: Workout[] = [];
 
@@ -20,29 +24,36 @@ export class WorkoutLogComponent implements OnInit {
   }
 
   getData() {
-  this.service.getData().subscribe(rawData => {
-    const records = rawData.split('\n');
-    records.shift();
+    this.service.getData().subscribe(rawData => {
+      const records = rawData.split('\n');
+      // remove the header row
+      records.shift();
 
-    records.forEach(record => {
-      let currentRecordData: any[];
-      let workout: Workout = new Workout;
+      records.forEach(record => {
+        if(record) {
+          console.log("record:" + record);
 
-      currentRecordData = record.split('","');
+          let currentRecordData: any[];
+          let workout: Workout = new Workout();
 
-      workout.title = currentRecordData[0].trim().substring(1);
-      workout.type = currentRecordData[1].trim();
-      workout.date = currentRecordData[5].trim();
-      workout.distance = currentRecordData[7].trim();
-      workout.time = currentRecordData[12].trim();
-      workout.rpe = currentRecordData[43].trim();
-      workout.feeling = currentRecordData[44].trim().slice(0, -1);
+          currentRecordData = record.split('","');
 
-      this.rawData.push(record);
-      this.workouts.push(workout);
-      console.log(workout);
+          workout.title = currentRecordData[0].trim().substring(1);
+          workout.type = currentRecordData[1].trim();
+          workout.date = currentRecordData[5].trim();
+          workout.distance = currentRecordData[7].trim();
+          workout.time = currentRecordData[12].trim();
+          workout.rpe = currentRecordData[43].trim();
+          workout.feeling = currentRecordData[44].trim().slice(0, -1);
+
+          this.rawData.push(record);
+          this.workouts.push(workout);
+          console.log(workout);
+        }
+      });
+
+      this.dataSource.data = this.workouts;
     });
-  });
-}
+  }
 
 }
