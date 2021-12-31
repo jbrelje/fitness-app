@@ -22,22 +22,11 @@ export class WorkoutLogComponent implements OnInit {
   constructor(private service: DataService,
               private matIconRegistry: MatIconRegistry,
               private domSanitizer: DomSanitizer) {
-    this.matIconRegistry.addSvgIcon(
-      'bike',
-      this.domSanitizer.bypassSecurityTrustResourceUrl('/assets/icons/bike.svg')
-    );
-    this.matIconRegistry.addSvgIcon(
-      'strength',
-      this.domSanitizer.bypassSecurityTrustResourceUrl('/assets/icons/strength.svg')
-    );
-    this.matIconRegistry.addSvgIcon(
-      'run',
-      this.domSanitizer.bypassSecurityTrustResourceUrl('/assets/icons/run.svg')
-    );
-    this.matIconRegistry.addSvgIcon(
-      'climbing',
-      this.domSanitizer.bypassSecurityTrustResourceUrl('/assets/icons/climbing.svg')
-    );
+    this.matIconRegistry
+      .addSvgIcon('bike', this.domSanitizer.bypassSecurityTrustResourceUrl('/assets/icons/bike.svg'))
+      .addSvgIcon('strength', this.domSanitizer.bypassSecurityTrustResourceUrl('/assets/icons/strength.svg'))
+      .addSvgIcon('run', this.domSanitizer.bypassSecurityTrustResourceUrl('/assets/icons/run.svg'))
+      .addSvgIcon('climbing', this.domSanitizer.bypassSecurityTrustResourceUrl('/assets/icons/climbing.svg'));
   }
 
   ngOnInit(): void {
