@@ -1,4 +1,5 @@
 export class Workout {
+  icon: string;
   title: string;
   type: string;
   date: string;

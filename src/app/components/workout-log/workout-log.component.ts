@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatIconRegistry } from "@angular/material/icon";
+import { DomSanitizer } from "@angular/platform-browser";
 
 import { DataService } from './../../service/data.service';
 import { Workout } from './../../models/workout.model'
@@ -11,13 +13,32 @@ import { Workout } from './../../models/workout.model'
 })
 export class WorkoutLogComponent implements OnInit {
 
-  displayedColumns: string[] = ['title', 'type', 'date', 'distance', 'time', 'rpe', 'feeling'];
+  displayedColumns: string[] = ['icon', 'title', 'type', 'date', 'distance', 'time', 'rpe', 'feeling'];
   dataSource = new MatTableDataSource<Workout>();
 
   rawData: any[] = [];
   workouts: Workout[] = [];
 
-  constructor(private service: DataService) { }
+  constructor(private service: DataService,
+              private matIconRegistry: MatIconRegistry,
+              private domSanitizer: DomSanitizer) {
+    this.matIconRegistry.addSvgIcon(
+      'bike',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('/assets/icons/bike.svg')
+    );
+    this.matIconRegistry.addSvgIcon(
+      'strength',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('/assets/icons/strength.svg')
+    );
+    this.matIconRegistry.addSvgIcon(
+      'run',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('/assets/icons/run.svg')
+    );
+    this.matIconRegistry.addSvgIcon(
+      'climbing',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('/assets/icons/climbing.svg')
+    );
+  }
 
   ngOnInit(): void {
     this.getData();
@@ -45,6 +66,13 @@ export class WorkoutLogComponent implements OnInit {
           workout.time = currentRecordData[12].trim();
           workout.rpe = currentRecordData[43].trim();
           workout.feeling = currentRecordData[44].trim().slice(0, -1);
+
+          if(workout.type === 'X-Train') {
+            if(workout.title.toLowerCase().includes('rock climbing'))
+              workout.icon = 'climbing';
+          }
+          else
+            workout.icon = workout.type.toLowerCase();
 
           this.rawData.push(record);
           this.workouts.push(workout);
