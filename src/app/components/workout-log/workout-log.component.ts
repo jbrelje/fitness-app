@@ -1,20 +1,34 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatIconRegistry } from "@angular/material/icon";
+import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
 import { DomSanitizer } from "@angular/platform-browser";
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 import { DataService } from './../../service/data.service';
-import { Workout } from './../../models/workout.model'
+import { Workout } from './../../models/workout.model';
 
 @Component({
   selector: 'app-workout-log',
   templateUrl: './workout-log.component.html',
-  styleUrls: ['./workout-log.component.css']
+  styleUrls: ['./workout-log.component.css'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ]
 })
 export class WorkoutLogComponent implements OnInit {
 
-  displayedColumns: string[] = ['icon', 'title', 'type', 'date', 'distance', 'time', 'rpe', 'feeling'];
+  columnsToDisplay: string[] = ['icon', 'title', 'type', 'date', 'distance', 'time', 'rpe', 'feeling'];
   dataSource = new MatTableDataSource<Workout>();
+  expandedElement: Workout | null;
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   rawData: any[] = [];
   workouts: Workout[] = [];
@@ -32,6 +46,11 @@ export class WorkoutLogComponent implements OnInit {
 
   ngOnInit(): void {
     this.getData();
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   getData() {
