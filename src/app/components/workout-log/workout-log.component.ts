@@ -39,45 +39,4 @@ export class WorkoutLogComponent implements OnInit {
       this.dataSource.data = data;
     });
   }
-
-  // getData() {
-  //   this.service.getRawData().subscribe(rawData => {
-  //     const records = rawData.split('\n');
-  //     // remove the header row
-  //     records.shift();
-
-  //     records.forEach(record => {
-  //       if (record) {
-  //         console.log("record:" + record);
-
-  //         let currentRecordData: any[];
-  //         let workout: Workout = new Workout();
-
-  //         currentRecordData = record.split('","');
-
-  //         workout.title = currentRecordData[0].trim().substring(1);
-  //         workout.type = currentRecordData[1].trim();
-  //         workout.date = currentRecordData[5].trim();
-  //         workout.distance = currentRecordData[7].trim();
-  //         workout.time = currentRecordData[12].trim();
-  //         workout.rpe = currentRecordData[43].trim();
-  //         workout.feeling = currentRecordData[44].trim().slice(0, -1);
-
-  //         if (workout.type === 'X-Train') {
-  //           if (workout.title.toLowerCase().includes('rock climbing'))
-  //             workout.icon = 'climbing';
-  //         }
-  //         else
-  //           workout.icon = workout.type.toLowerCase();
-
-  //         this.rawData.push(record);
-  //         this.workouts.push(workout);
-  //         console.log(workout);
-  //       }
-  //     });
-
-  //     this.dataSource.data = this.workouts;
-  //   });
-  // }
-
 }

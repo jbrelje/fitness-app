@@ -65,5 +65,4 @@ export class DataService {
     else
       workout.icon = workout.type.toLowerCase();
   }
-
 }
