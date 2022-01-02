@@ -1,79 +1,86 @@
-<h2>Workout Log</h2>
+<div class="container">
 
-<div>
-  <!-- Workout Data Table -->
-  <table mat-table [dataSource]="dataSource" multiTemplateDataRows matSort>
+  <mat-form-field appearance="standard">
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. bike" #input>
+  </mat-form-field>
 
-    <!-- Icon Column -->
-    <ng-container matColumnDef="icon">
-      <th mat-header-cell *matHeaderCellDef> Icon </th>
-      <td mat-cell *matCellDef="let workout">
-        <mat-icon [svgIcon]="workout.icon"></mat-icon>
-      </td>
-    </ng-container>
+  <div class="table-container">
+    <!-- Workout Data Table -->
+    <table mat-table [dataSource]="dataSource" multiTemplateDataRows matSort>
 
-    <!-- Title Column -->
-    <ng-container matColumnDef="title">
-      <th mat-header-cell *matHeaderCellDef> Title </th>
-      <td mat-cell *matCellDef="let workout"> {{ workout.title }} </td>
-    </ng-container>
+      <!-- Icon Column -->
+      <ng-container matColumnDef="icon">
+        <th mat-header-cell *matHeaderCellDef> Icon </th>
+        <td mat-cell *matCellDef="let workout">
+          <mat-icon [svgIcon]="workout.icon"></mat-icon>
+        </td>
+      </ng-container>
 
-    <!-- Type Column -->
-    <ng-container matColumnDef="type">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Workout Type </th>
-      <td mat-cell *matCellDef="let workout"> {{ workout.type }} </td>
-    </ng-container>
+      <!-- Title Column -->
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef> Title </th>
+        <td mat-cell *matCellDef="let workout"> {{ workout.title }} </td>
+      </ng-container>
 
-    <!-- Date Column -->
-    <ng-container matColumnDef="date">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
-      <td mat-cell *matCellDef="let workout"> {{ workout.date | date: 'MM/dd/y'}} </td>
-    </ng-container>
+      <!-- Type Column -->
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Workout Type </th>
+        <td mat-cell *matCellDef="let workout"> {{ workout.type }} </td>
+      </ng-container>
 
-    <!-- Distance Column -->
-    <!-- <ng-container matColumnDef="distance">
+      <!-- Date Column -->
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
+        <td mat-cell *matCellDef="let workout"> {{ workout.date | date: 'MM/dd/y'}} </td>
+      </ng-container>
+
+      <!-- Distance Column -->
+      <!-- <ng-container matColumnDef="distance">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Distance (m) </th>
       <td mat-cell *matCellDef="let workout"> {{ workout.distance | number }} </td>
     </ng-container> -->
 
-    <!-- Time Column -->
-    <ng-container matColumnDef="time">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Time </th>
-      <td mat-cell *matCellDef="let workout"> {{ workout.time * 3600 * 1000 | date: 'H:mm:ss':'UTC' }} </td>
-    </ng-container>
+      <!-- Time Column -->
+      <ng-container matColumnDef="time">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Time </th>
+        <td mat-cell *matCellDef="let workout"> {{ workout.time * 3600 * 1000 | date: 'H:mm:ss':'UTC' }} </td>
+      </ng-container>
 
-    <!-- RPE Column -->
-    <!-- <ng-container matColumnDef="rpe">
+      <!-- RPE Column -->
+      <!-- <ng-container matColumnDef="rpe">
       <th mat-header-cell *matHeaderCellDef> RPE </th>
       <td mat-cell *matCellDef="let workout"> {{ workout.rpe }} </td>
     </ng-container> -->
 
-    <!-- Feeling Column -->
-    <!-- <ng-container matColumnDef="feeling">
+      <!-- Feeling Column -->
+      <!-- <ng-container matColumnDef="feeling">
       <th mat-header-cell *matHeaderCellDef> Feeling </th>
       <td mat-cell *matCellDef="let workout"> {{ workout.feeling }} </td>
     </ng-container> -->
 
-    <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
-    <ng-container matColumnDef="expandedDetail">
-      <td mat-cell *matCellDef="let workout" [attr.colspan]="columnsToDisplay.length">
-        <div class="workout-detail" [@detailExpand]="workout == expandedWorkout ? 'expanded' : 'collapsed'">
-          <p> Workout Details </p>
-          <p> Distance: {{ workout.distance }} </p>
-          <p> RPE: {{ workout.rpe }} </p>
-          <p> Feeling: {{ workout.feeling }} </p>
-        </div>
-      </td>
-    </ng-container>
+      <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+      <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let workout" [attr.colspan]="columnsToDisplay.length">
+          <div class="workout-detail" [@detailExpand]="workout == expandedWorkout ? 'expanded' : 'collapsed'">
+            <p> Workout Details </p>
+            <p> Distance (miles): {{ workout.distance * 0.000621371 | number: '1.2-2' }} </p>
+            <p> RPE: {{ workout.rpe }} </p>
+            <p> Feeling: {{ workout.feeling }} </p>
+          </div>
+        </td>
+      </ng-container>
 
-    <!-- Display the Table -->
-    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-    <tr mat-row *matRowDef="let workout; columns: columnsToDisplay;" class="workout-row"
-      [class.expanded-row]="expandedWorkout === workout"
-      (click)="expandedWorkout = expandedWorkout === workout ? null : workout">
-    </tr>
-    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
+      <!-- Display the Table -->
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>
+      <tr mat-row *matRowDef="let workout; columns: columnsToDisplay;" class="workout-row"
+        [class.expanded-row]="expandedWorkout === workout"
+        (click)="expandedWorkout = expandedWorkout === workout ? null : workout">
+      </tr>
+      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
 
-  </table>
+    </table>
+  </div>
   <mat-paginator [pageSizeOptions]="[10, 25, 50, 100, 500, 1000]"></mat-paginator>
+
 </div>
