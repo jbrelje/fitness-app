@@ -23,9 +23,10 @@ import { Workout } from './../../models/workout.model';
 })
 export class WorkoutLogComponent implements OnInit {
 
-  columnsToDisplay: string[] = ['icon', 'title', 'type', 'date', 'distance', 'time', 'rpe', 'feeling'];
+  // columnsToDisplay: string[] = ['icon', 'title', 'type', 'date', 'distance', 'time', 'rpe', 'feeling'];
+  columnsToDisplay: string[] = ['icon', 'title', 'type', 'date', 'time'];
   dataSource = new MatTableDataSource<Workout>();
-  expandedElement: Workout | null;
+  expandedWorkout: Workout | null;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -41,7 +42,13 @@ export class WorkoutLogComponent implements OnInit {
       .addSvgIcon('bike', this.domSanitizer.bypassSecurityTrustResourceUrl('/assets/icons/bike.svg'))
       .addSvgIcon('strength', this.domSanitizer.bypassSecurityTrustResourceUrl('/assets/icons/strength.svg'))
       .addSvgIcon('run', this.domSanitizer.bypassSecurityTrustResourceUrl('/assets/icons/run.svg'))
-      .addSvgIcon('climbing', this.domSanitizer.bypassSecurityTrustResourceUrl('/assets/icons/climbing.svg'));
+      .addSvgIcon('climbing', this.domSanitizer.bypassSecurityTrustResourceUrl('/assets/icons/climbing.svg'))
+      .addSvgIcon('downhill-skiing', this.domSanitizer.bypassSecurityTrustResourceUrl('/assets/icons/downhill-skiing.svg'))
+      .addSvgIcon('water-skiing', this.domSanitizer.bypassSecurityTrustResourceUrl('/assets/icons/water-skiing.svg'))
+      .addSvgIcon('hiking', this.domSanitizer.bypassSecurityTrustResourceUrl('/assets/icons/hiking.svg'))
+      .addSvgIcon('stretching', this.domSanitizer.bypassSecurityTrustResourceUrl('/assets/icons/stretching.svg'))
+      .addSvgIcon('basketball', this.domSanitizer.bypassSecurityTrustResourceUrl('/assets/icons/basketball.svg'))
+      .addSvgIcon('walk', this.domSanitizer.bypassSecurityTrustResourceUrl('/assets/icons/walk.svg'));
   }
 
   ngOnInit(): void {

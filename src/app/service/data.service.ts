@@ -30,7 +30,7 @@ export class DataService {
             if (record) workouts.push(this.parseRecordToWorkout(record));
           });
 
-          return workouts;
+          return workouts.filter(workout => workout.type != 'Day Off');
         })
       );
   }
@@ -46,23 +46,40 @@ export class DataService {
     workout.title = currentRecordData[0].trim().substring(1); // remove leading " char
     workout.type = currentRecordData[1].trim();
     workout.date = currentRecordData[5].trim();
-    workout.distance = currentRecordData[7].trim();
+    workout.distance = (currentRecordData[7].trim() > 500) ? currentRecordData[7].trim() : 0;
     workout.time = currentRecordData[12].trim();
     workout.rpe = currentRecordData[43].trim();
     workout.feeling = currentRecordData[44].trim().slice(0, -1); // remove trailing " char
 
     this.setIcon(workout);
+    this.setWorkoutType(workout);
 
     console.log(workout);
     return workout;
   }
 
   setIcon(workout: Workout) {
-    if (workout.type === 'X-Train') {
-      if (workout.title.toLowerCase().includes('rock climbing'))
-        workout.icon = 'climbing';
+    if (workout.type === 'X-Train' || workout.type === 'Other') {
+      if (workout.title.toLowerCase().includes('rock climbing')) workout.icon = 'climbing';
+      else if (workout.title.toLowerCase().includes('downhill skiing')) workout.icon = 'downhill-skiing';
+      else if (workout.title.toLowerCase().includes('water skiing')) workout.icon = 'water-skiing';
+      else if (workout.title.toLowerCase().includes('hiking')) workout.icon = 'hiking';
+      else if (workout.title.toLowerCase().includes('mobility') || workout.title.toLowerCase().includes('stretching')) workout.icon = 'stretching';
+      else if (workout.title.toLowerCase().includes('basketball')) workout.icon = 'basketball';
+      else workout.icon = 'run';
     }
-    else
-      workout.icon = workout.type.toLowerCase();
+    else workout.icon = workout.type.toLowerCase();
+  }
+
+  setWorkoutType(workout: Workout) {
+    if (workout.type === 'X-Train' || workout.type === 'Other') {
+      if (workout.title.toLowerCase().includes('rock climbing')) workout.type = 'Climbing';
+      else if (workout.title.toLowerCase().includes('downhill skiing')) workout.type = 'Downhill Skiing';
+      else if (workout.title.toLowerCase().includes('water skiing')) workout.type = 'Water Skiing';
+      else if (workout.title.toLowerCase().includes('hiking')) workout.type = 'Hiking';
+      else if (workout.title.toLowerCase().includes('mobility') || workout.title.toLowerCase().includes('stretching')) workout.type = 'Mobility';
+      else if (workout.title.toLowerCase().includes('basketball')) workout.type = 'Basketball';
+      else workout.type = 'Other';
+    }
   }
 }
