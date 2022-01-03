@@ -71,11 +71,13 @@
       <ng-container matColumnDef="expandedDetail">
         <td mat-cell *matCellDef="let workout" [attr.colspan]="columnsToDisplay.length">
           <div class="workout-detail" [@detailExpand]="workout == expandedWorkout ? 'expanded' : 'collapsed'">
-            <p> Workout Details </p>
-            <p> Planned Duration: {{ workout.plannedDuration * 3600 * 1000 | date: 'H:mm:ss':'UTC' }} </p>
-            <p> Distance (miles): {{ workout.distance * 0.000621371 | number: '1.2-2' }} </p>
-            <p> RPE: {{ workout.rpe }} </p>
-            <p> Feeling: {{ workout.feeling }} </p>
+            <div class="detail-container">
+              <p> Workout Details </p>
+              <p> Planned Duration: {{ workout.plannedDuration * 3600 * 1000 | date: 'H:mm:ss':'UTC' }} </p>
+              <p> Distance (miles): {{ workout.distance * 0.000621371 | number: '1.2-2' }} </p>
+              <p> RPE: {{ workout.rpe }} </p>
+              <p> Feeling: {{ workout.feeling }} </p>
+            </div>
           </div>
         </td>
       </ng-container>
@@ -90,6 +92,7 @@
 
     </table>
   </div>
-  <mat-paginator [pageSize]='100' [pageSizeOptions]="[10, 25, 50, 100, 500, 1000]" [showFirstLastButtons]='true'></mat-paginator>
+  <mat-paginator [pageSize]='100' [pageSizeOptions]="[10, 25, 50, 100, 500, 1000]" [showFirstLastButtons]='true'>
+  </mat-paginator>
 
 </div>

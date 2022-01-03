@@ -19,14 +19,6 @@ tr.detail-row {
   height: 0;
 }
 
-tr.workout-row:not(.expanded-row):hover {
-  background: whitesmoke;
-}
-
-tr.workout-row:not(.expanded-row):active {
-  background: #efefef;
-}
-
 .container {
   margin: 0px 20px;
 }
@@ -42,6 +34,11 @@ tr.workout-row:not(.expanded-row):active {
 
 .workout-detail {
   overflow: hidden;
+}
+
+.detail-container {
+  padding-left: 104px;
+  padding-top: 12px;
 }
 
 .icon-col {
