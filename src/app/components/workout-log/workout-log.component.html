@@ -14,7 +14,7 @@
       <!-- Icon Column -->
       <ng-container matColumnDef="icon">
         <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let workout">
+        <td mat-cell *matCellDef="let workout" [ngStyle]="applyIconRowBackgroundColor(workout)" class="icon-col">
           <mat-icon [svgIcon]="workout.icon"></mat-icon>
         </td>
       </ng-container>
@@ -22,13 +22,25 @@
       <!-- Title Column -->
       <ng-container matColumnDef="title">
         <th mat-header-cell *matHeaderCellDef> Title </th>
-        <td mat-cell *matCellDef="let workout"> {{ workout.title }} </td>
+        <td mat-cell *matCellDef="let workout"><b> {{ workout.title }} </b></td>
       </ng-container>
 
       <!-- Type Column -->
-      <ng-container matColumnDef="type">
+      <!-- <ng-container matColumnDef="type">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Workout Type </th>
         <td mat-cell *matCellDef="let workout"> {{ workout.type }} </td>
+      </ng-container> -->
+
+      <!-- Duration Column -->
+      <ng-container matColumnDef="duration">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Duration </th>
+        <td mat-cell *matCellDef="let workout">
+          <div class="duration-icon">
+            {{ workout.duration * 3600 * 1000 | date: 'H:mm:ss':'UTC' }}
+            <mat-icon [ngClass]="applyDurationIconClass(workout)"> {{ getDurationIcon(workout) }} </mat-icon>
+          </div>
+          <!-- <mat-icon class='yellow-arrow-icon'>expand_less</mat-icon> -->
+        </td>
       </ng-container>
 
       <!-- Date Column -->
@@ -39,33 +51,28 @@
 
       <!-- Distance Column -->
       <!-- <ng-container matColumnDef="distance">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Distance (m) </th>
-      <td mat-cell *matCellDef="let workout"> {{ workout.distance | number }} </td>
-    </ng-container> -->
-
-      <!-- Time Column -->
-      <ng-container matColumnDef="time">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Time </th>
-        <td mat-cell *matCellDef="let workout"> {{ workout.time * 3600 * 1000 | date: 'H:mm:ss':'UTC' }} </td>
-      </ng-container>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Distance (m) </th>
+        <td mat-cell *matCellDef="let workout"> {{ workout.distance | number }} </td>
+      </ng-container> -->
 
       <!-- RPE Column -->
       <!-- <ng-container matColumnDef="rpe">
-      <th mat-header-cell *matHeaderCellDef> RPE </th>
-      <td mat-cell *matCellDef="let workout"> {{ workout.rpe }} </td>
-    </ng-container> -->
+        <th mat-header-cell *matHeaderCellDef> RPE </th>
+        <td mat-cell *matCellDef="let workout"> {{ workout.rpe }} </td>
+      </ng-container> -->
 
       <!-- Feeling Column -->
       <!-- <ng-container matColumnDef="feeling">
-      <th mat-header-cell *matHeaderCellDef> Feeling </th>
-      <td mat-cell *matCellDef="let workout"> {{ workout.feeling }} </td>
-    </ng-container> -->
+        <th mat-header-cell *matHeaderCellDef> Feeling </th>
+        <td mat-cell *matCellDef="let workout"> {{ workout.feeling }} </td>
+      </ng-container> -->
 
       <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
       <ng-container matColumnDef="expandedDetail">
         <td mat-cell *matCellDef="let workout" [attr.colspan]="columnsToDisplay.length">
           <div class="workout-detail" [@detailExpand]="workout == expandedWorkout ? 'expanded' : 'collapsed'">
             <p> Workout Details </p>
+            <p> Planned Duration: {{ workout.plannedDuration * 3600 * 1000 | date: 'H:mm:ss':'UTC' }} </p>
             <p> Distance (miles): {{ workout.distance * 0.000621371 | number: '1.2-2' }} </p>
             <p> RPE: {{ workout.rpe }} </p>
             <p> Feeling: {{ workout.feeling }} </p>
@@ -76,13 +83,13 @@
       <!-- Display the Table -->
       <tr mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>
       <tr mat-row *matRowDef="let workout; columns: columnsToDisplay;" class="workout-row"
-        [class.expanded-row]="expandedWorkout === workout"
+        [ngStyle]="applyRowBackgroundColor(workout)" [class.expanded-row]="expandedWorkout === workout"
         (click)="expandedWorkout = expandedWorkout === workout ? null : workout">
       </tr>
       <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
 
     </table>
   </div>
-  <mat-paginator [pageSizeOptions]="[10, 25, 50, 100, 500, 1000]"></mat-paginator>
+  <mat-paginator [pageSize]='100' [pageSizeOptions]="[10, 25, 50, 100, 500, 1000]" [showFirstLastButtons]='true'></mat-paginator>
 
 </div>

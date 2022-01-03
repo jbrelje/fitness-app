@@ -4,7 +4,8 @@ export class Workout {
   type: string;
   date: string;
   distance: number;
-  time: number;
+  duration: number;
+  plannedDuration: number;
   rpe: number;
   feeling: number;
 }

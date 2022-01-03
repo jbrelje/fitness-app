@@ -23,8 +23,7 @@ import { Workout } from './../../models/workout.model';
 })
 export class WorkoutLogComponent implements OnInit {
 
-  // columnsToDisplay: string[] = ['icon', 'title', 'type', 'date', 'distance', 'time', 'rpe', 'feeling'];
-  columnsToDisplay: string[] = ['icon', 'title', 'type', 'date', 'time'];
+  columnsToDisplay: string[] = ['icon', 'title', 'duration', 'date'];
   dataSource = new MatTableDataSource<Workout>();
   expandedWorkout: Workout | null;
 
@@ -73,5 +72,47 @@ export class WorkoutLogComponent implements OnInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  applyIconRowBackgroundColor(workout: Workout) {
+    let color: string = '';
+
+    if (!workout.plannedDuration) color = '#b5b5b5'; // plain for no planned duration
+    else if (workout.duration < workout.plannedDuration * 0.5) color = '#ff8913'; // red(ish)
+    else if (workout.duration < workout.plannedDuration * 0.8) color = '#ffc400'; // yellow
+    else if (workout.duration > workout.plannedDuration * 1.5) color = '#ff8913'; // red(ish)
+    else if (workout.duration > workout.plannedDuration * 1.2) color = '#ffc400'; // yellow
+    else color = '#72bb52'; // green
+
+    return { 'background-color': color };
+  }
+
+  applyRowBackgroundColor(workout: Workout) {
+    let color: string = '';
+
+    if (!workout.plannedDuration) color = '#efefef'; // plain for no planned duration
+    else if (workout.duration < workout.plannedDuration * 0.5) color = '#fff0e1'; // red(ish)
+    else if (workout.duration < workout.plannedDuration * 0.8) color = '#fffbef'; // yellow
+    else if (workout.duration > workout.plannedDuration * 1.5) color = '#fff0e1'; // red(ish)
+    else if (workout.duration > workout.plannedDuration * 1.2) color = '#fffbef'; // yellow
+    else color = '#edf6e9'; // green
+
+    return { 'background-color': color };
+  }
+
+  applyDurationIconClass(workout: Workout) {
+    if (!workout.plannedDuration) return 'none'; // plain for no planned duration
+    else if (workout.duration < workout.plannedDuration * 0.5) return 'red-arrow-icon'; // red(ish)
+    else if (workout.duration < workout.plannedDuration * 0.8) return 'yellow-arrow-icon'; // yellow
+    else if (workout.duration > workout.plannedDuration * 1.5) return 'red-arrow-icon'; // red(ish)
+    else if (workout.duration > workout.plannedDuration * 1.2) return 'yellow-arrow-icon'; // yellow
+    else return 'green-check-icon'; // green
+  }
+
+  getDurationIcon(workout: Workout): string {
+    if (!workout.plannedDuration) return ''; // plain for no planned duration
+    else if (workout.duration < workout.plannedDuration * 0.8) return 'expand_more'; // down arrow
+    else if (workout.duration > workout.plannedDuration * 1.2) return 'expand_less'; // up arrow
+    else return 'check'; // green
   }
 }

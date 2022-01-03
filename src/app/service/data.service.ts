@@ -43,19 +43,23 @@ export class DataService {
 
     currentRecordData = record.split('","');
 
-    workout.title = currentRecordData[0].trim().substring(1); // remove leading " char
-    workout.type = currentRecordData[1].trim();
-    workout.date = currentRecordData[5].trim();
-    workout.distance = (currentRecordData[7].trim() > 500) ? currentRecordData[7].trim() : 0;
-    workout.time = currentRecordData[12].trim();
-    workout.rpe = currentRecordData[43].trim();
-    workout.feeling = currentRecordData[44].trim().slice(0, -1); // remove trailing " char
-
+    this.setWorkoutData(workout, currentRecordData);
     this.setIcon(workout);
     this.setWorkoutType(workout);
 
     console.log(workout);
     return workout;
+  }
+
+  setWorkoutData(workout: Workout, currentRecordData: any[]) {
+    workout.title = currentRecordData[0].trim().substring(1); // remove leading " char
+    workout.type = currentRecordData[1].trim();
+    workout.date = currentRecordData[5].trim();
+    workout.distance = (currentRecordData[7].trim() > 500) ? currentRecordData[7].trim() : 0;
+    workout.duration = currentRecordData[12].trim();
+    workout.plannedDuration = currentRecordData[3].trim();
+    workout.rpe = currentRecordData[43].trim();
+    workout.feeling = currentRecordData[44].trim().slice(0, -1); // remove trailing " char
   }
 
   setIcon(workout: Workout) {

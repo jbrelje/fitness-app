@@ -1,14 +1,18 @@
-.container {
-  margin : 20px;
-}
-
-.table-container {
-  height: 550px;
-  overflow: auto;
-}
-
 table {
   width: 100%;
+}
+
+td.mat-cell:first-of-type {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+th.mat-header-cell:nth-of-type(2) {
+  padding-left: 24px;
+}
+
+td.mat-cell:nth-of-type(2) {
+  padding-left: 24px;
 }
 
 tr.detail-row {
@@ -23,11 +27,41 @@ tr.workout-row:not(.expanded-row):active {
   background: #efefef;
 }
 
+.container {
+  margin: 0px 20px;
+}
+
+.table-container {
+  height: 550px;
+  overflow: auto;
+}
+
 .workout-row td {
   border-bottom-width: 0;
 }
 
 .workout-detail {
   overflow: hidden;
-  /* display: flex; */
+}
+
+.icon-col {
+  text-align: center;
+}
+
+.duration-icon {
+  display: flex;
+  align-items: center;
+}
+
+.green-check-icon {
+  color: #72bb52;
+  padding-left: 5px;
+}
+
+.yellow-arrow-icon {
+  color: #ffc400;
+}
+
+.red-arrow-icon {
+  color: #ff8913;
 }
