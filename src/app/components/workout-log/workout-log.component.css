@@ -57,8 +57,10 @@ tr.detail-row {
 
 .yellow-arrow-icon {
   color: #ffc400;
+  padding-left: 5px;
 }
 
 .red-arrow-icon {
   color: #ff8913;
+  padding-left: 5px;
 }
